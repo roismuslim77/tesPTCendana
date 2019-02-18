@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<body>
+
+<div ng-controller="repeatController" ng-app="ngRepeat">
+    <input type="text" ng-model="name"><br>
+    <div>your input : {{name}}</div> 
+    <br><br>
+    <input type="number" ng-model="number">
+    <br> <h3>IDR {{number| number:0}}.00</h3> 
+    
+    <ul class="example-animate-container">
+                <li class="animate-repeat" ng-repeat="friend in friends">
+                    {{friend}}
+                </li>
+    </ul>
+    <!-- I have {{friends.length}} friends. They are:
+    <ul class="example-animate-container">
+        <li class="animate-repeat" ng-repeat="friend in friends">
+            {{friend}}
+        </li>
+    </ul> -->
+    <select name="" id="">
+        <option value="" ng-repeat="friend in friends">{{friend}}</option>
+    </select>
+</div>
+<script>
+    angular.module('ngRepeat',[]).
+    controller('repeatController', function($scope) {
+        $scope.friends = ["Budi","Ainal", "Ade", "Micahel"];
+        $scope.name ="";
+        $scope.number=0;
+    });
+</script>
+</body>
+</html> 
