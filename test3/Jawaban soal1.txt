@@ -1,0 +1,39 @@
+A.
+
+1 SELECT pegawai.nama AS nama_pegawai, concat('Rp ', FORMAT(jabatan.gaji_tambahan+penempatan.umr,0)) AS total_gaji from pegawai JOIN jabatan ON pegawai.id_jabatan=jabatan.id JOIN penempatan ON pegawai.id_penempatan=penempatan.id WHERE jabatan.gaji_tambahan+penempatan.umr>=4200000
+2 SELECT pegawai.nama AS nama_pegawai, jabatan.nama AS jabatan, penempatan.nama AS penempatan,
+    (CASE
+        WHEN jabatan.id = 2 THEN concat('Rp ', FORMAT(jabatan.gaji_tambahan+penempatan.umr+200000,0))
+        ELSE concat('Rp ', FORMAT(jabatan.gaji_tambahan+penempatan.umr,0))
+    END) AS total_gaji FROM pegawai JOIN jabatan ON pegawai.id_jabatan=jabatan.id JOIN penempatan ON pegawai.id_penempatan=penempatan.id 
+
+6 SELECT penempatan.nama AS kota_penempatan from pegawai JOIN jabatan ON pegawai.id_jabatan=jabatan.id JOIN penempatan ON pegawai.id_penempatan=penempatan.id 
+	WHERE jabatan.id != 1
+
+3 SELECT jabatan.nama AS jabatan, penempatan.nama AS penempatan, concat('Rp ', FORMAT(jabatan.gaji_tambahan+penempatan.umr,0)) AS total_gaji
+	 FROM pegawai JOIN jabatan ON pegawai.id_jabatan=jabatan.id JOIN penempatan ON pegawai.id_penempatan=penempatan.id
+	 WHERE pegawai.nama LIKE 's%' 
+4 SELECT jabatan.nama AS jabatan, penempatan.nama AS penempatan, concat('Rp ', FORMAT(jabatan.gaji_tambahan+penempatan.umr,0)) AS total_gaji
+	 FROM pegawai JOIN jabatan ON pegawai.id_jabatan=jabatan.id JOIN penempatan ON pegawai.id_penempatan=penempatan.id
+	 WHERE jabatan.gaji_tambahan+penempatan.umr>4200000
+
+- SELECT pegawai.nama, jabatan.nama AS jabatan, penempatan.nama AS penempatan, concat('Rp ', FORMAT(jabatan.gaji_tambahan+penempatan.umr,0)) AS total_gaji FROM pegawai JOIN jabatan ON pegawai.id_jabatan=jabatan.id JOIN penempatan ON pegawai.id_penempatan=penempatan.id
+	 WHERE jabatan.gaji_tambahan+penempatan.umr>4200000 && SUBSTRING_INDEX(jabatan.nama, ' ', -1) != ' '
+========================================================================================================================================================================================================================================================================================
+B.
+
+CREATE VIEW gaji_pegawai AS
+	SELECT pegawai.nama AS nama_pegawai, jabatan.nama AS jabatan, penempatan.nama AS penempatan, concat('Rp ', FORMAT(jabatan.gaji_tambahan+penempatan.umr,0)) AS total_gaji from pegawai JOIN jabatan ON pegawai.id_jabatan=jabatan.id JOIN penempatan ON pegawai.id_penempatan=penempatan.id 
+
+===============================================================================
+C.
+
+ DELIMITER $$
+    CREATE FUNCTION total_gaji(gaji INT(20), umr INT(20))
+      RETURNS TEXT
+      LANGUAGE SQL
+    BEGIN
+     RETURN concat('Rp ', FORMAT(gaji+umr,0));
+    END;
+  $$
+  DELIMITER ;
